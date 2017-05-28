@@ -4,28 +4,30 @@ var data = [ { label: "Data Set 1",
              { label: "Data Set 2", 
                x: [0, 1, 2, 3, 4], 
                y: [0, 1, 4, 9, 16] } ] ;
+
 var xy_chart = d3_xy_chart()
-    .width(300)
-    .height(240)
+    .width(400)
+    .height(320)
     .xlabel("X Axis")
     .ylabel("Y Axis") ;
 
 var svg = d3.select("#graph1").append("svg")
     .datum(data)
-    .call(xy_chart) ;
-
+    .call(xy_chart) ;    
+    
 function d3_xy_chart() {
     var width = 640,  
         height = 480, 
         xlabel = "X Axis Label",
-        ylabel = "Y Axis Label" ;
-    
+        ylabel = "Y Axis Label" ;  
+
+
     function chart(selection) {
         selection.each(function(datasets) {
             //
             // Create the plot. 
             //
-            var margin = {top: 10, right: 25, bottom: 30, left: 25}, 
+            var margin = {top: 50, right: 50, bottom: 50, left: 50}, 
                 innerwidth = width - margin.left - margin.right,
                 innerheight = height - margin.top - margin.bottom ;
             
@@ -121,7 +123,6 @@ function d3_xy_chart() {
                 .attr("dy", ".35em")
                 .attr("fill", function(_, i) { return color_scale(i); })
                 .text(function(d) { return d.name; }) ;
-
         }) ;
     }
 
