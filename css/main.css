@@ -56,38 +56,42 @@ Structure
   -webkit-box-shadow: 0px 2px 4px 0px rgba(126, 126, 126, 0.5);
   color: #fff;
   height: 80px;
-  padding: 0;
+  padding: 0 0 0 0;
   z-index: 1;
   position: relative;
-
   font-family: "Razor Keen","serif";
-  font-size: 4em;
+  font-size: 36px;
 }
 
 .site-header .logo img {
   height: 80px;
   width: auto;
+  padding: 0;
   display: block;  
   position: absolute;
   top: 0px;
   left: 0px;
 }
 
-.site-header .menu {
-  display: block;
-  position: absolute;
-  top: -0.6em;
-  right: 20px;
-}
-
 .site-header ul {
   list-style: none;
-  display: inline-block;
+  margin: 0.6em 0 0;
+  position: absolute;
+  right: 0;
 }
 
 .site-header li {
   display: inline-block;
-  margin: 5px 0 5px 20px;
+  margin: 0 10px 0 10px;
+}
+
+.site-header a {
+  color: #eee;
+  text-decoration: none;
+}
+
+.site-header a:hover {
+  color: #aaa;
 }
 
 .site-header h1.logo {
