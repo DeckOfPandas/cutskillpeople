@@ -1,4 +1,8 @@
 @import url(http://fonts.googleapis.com/css?family=Lato:100,300,400,700);
+@font-face {
+  font-family: 'Razor Keen';
+  src: url('razorkeen.ttf');
+}
 
 body {
   font-family: 'Lato', sans-serif;
@@ -51,10 +55,39 @@ Structure
   box-shadow: 0px 2px 4px 0px rgba(126, 126, 126, 0.5);
   -webkit-box-shadow: 0px 2px 4px 0px rgba(126, 126, 126, 0.5);
   color: #fff;
-  height: 2em;
-  padding: 1.8em;
-  position: relative;
+  height: 80px;
+  padding: 0;
   z-index: 1;
+  position: relative;
+
+  font-family: "Razor Keen","serif";
+  font-size: 4em;
+}
+
+.site-header .logo img {
+  height: 80px;
+  width: auto;
+  display: block;  
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+.site-header .menu {
+  display: block;
+  position: absolute;
+  top: -0.6em;
+  right: 20px;
+}
+
+.site-header ul {
+  list-style: none;
+  display: inline-block;
+}
+
+.site-header li {
+  display: inline-block;
+  margin: 5px 0 5px 20px;
 }
 
 .site-header h1.logo {
@@ -191,75 +224,4 @@ Graphs
 
 section.graphs {
   display: none;
-}
-
-/*
-* Filters
-*/
-
-#filters {
-  left: 7.5%;
-  position: absolute;
-  text-align: center;
-  opacity: 0;
-  top: 1.8em;
-  transition: opacity 0.33s linear;
-  width: 85%;
-  z-index: 1;
-}
-
-#filters.loaded {
-  opacity: 1;
-}
-
-#filters .selector {
-    background: #fff;
-    border-radius: 6px;
-    box-shadow: 0px 2px 4px 0px rgba(126,126,126,0.5);
-    -webkit-box-shadow: 0px 2px 4px 0px rgba(126,126,126,0.5);
-    display: inline-block;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-
-#filters .selector label {
-  background: #fff;
-  border: 1px solid #2399D3;
-  border-right: 0;
-  color: #222;
-  cursor: pointer;
-  float: left;
-  font-size: 1.4em;
-  padding: 0.71em 1.29em;
-  text-decoration: none;
-  text-transform: uppercase;
-}
-
-#filters .selector input {
-    display: none;
-}
-
-#filters .selector label:first-of-type {
-  border-radius: 6px 0px 0px 6px;
-}
-
-#filters .selector label:last-of-type {
-  border-radius: 0px 6px 6px 0px;
-  border: 1px solid #2399D3;
-}
-
-#filters .selector label:hover, #filters .selector label:active, #filters .selector label:focus {
-  background-color: #fff;
-}
-
-#filters .selector label.selected {
-  background-color: #2399D3;
-  color: #fff;
-  cursor: auto;
-}
-
-.year-selector label {
-  background-repeat: no-repeat;
-  background-position: 1.29em center;
 }
