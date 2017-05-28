@@ -33,21 +33,32 @@ function init() {
   var splashCloser = splashMessage.querySelector('.js-close-splash');
   splashCloser.addEventListener('click', function(event) {
     event.preventDefault();
-    splashMessage.className = "splash-container"
+    splashMessage.className = "splash-container";
+    filters.className = "loaded"
   });
 
-  var theMap = new CCGMap('map-container', labelmaker, colorchooser);
+  var byCCG = {}
+  for (var ccg of rateData) {
+    byCCG[ccg.CCG_Code] = ccg;
+  }
+  for (var ccgLayer of ccgData.features) {
+    ccgLayer.properties.data = byCCG[ccgLayer.properties.ccg_code];
+  }
+
+  var theMap = new CCGMap('map-container', labelmaker);
 }
 
 class CCGMap {
 
-  constructor(selector, labelmaker, colorchooser) {
+  constructor(selector, labelmaker) {
     this.selectedArea = null;
+    this.selectedYear = 2013;
     this.mapContainer = selector;
     this.initMap();
     this.initInfoBox();
+    this.initFilters();
     this.layers = L.geoJson(ccgData, {
-        style: this.style,
+        style: this.style.bind(this),
         onEachFeature: this.onEachFeature.bind(this),
     }).addTo(this.map);
   }
@@ -67,8 +78,23 @@ class CCGMap {
     });
   }
 
+  initFilters() {
+    var yearToggles = filters.querySelectorAll('.selector-option');
+    for(var year of yearToggles) {
+      year.addEventListener('click', function(e) {
+        e.preventDefault();
+        for(var toggle of yearToggles) {
+          toggle.className = "selector-option";
+        }
+        this.selectedYear = e.target.dataset.year;
+        e.target.className = "selector-option selected";
+        this.redraw();
+      }.bind(this));
+    };
+  }
+
   style(feature) {
-      var color = colorchooser(feature.properties)
+      var color = this.colorChooser(feature.properties)
       return {
           fillColor: color,
           weight: 2,
@@ -108,6 +134,31 @@ class CCGMap {
       });
   }
 
+  colorChooser(props) {
+      if(this.selectedYear == 2013) {
+          try {
+            var d = props.data["Rate_Apr13"];
+          } catch(e) {
+            var d = null;
+          }
+
+      } else {
+        try {
+          var d = props.data["Rate_Mar17"];
+        } catch(e) {
+          var d = null;
+        }
+
+      }
+      return d >= 0.92 ? '#66BC29' : d < 0.92 ? '#A01010' : '#D8DFD8';
+  }
+
+  redraw() {
+    this.layers.eachLayer(function(layer) {
+      layer.setStyle(this.style(layer.feature));
+    }.bind(this));
+  }
+
 }
 
 var labelmaker = function (props) {
@@ -118,19 +169,5 @@ var labelmaker = function (props) {
             + '<br />' + props.population + ' population total'
             : 'Hover over a CCG');
 };
-
-// This is obviously statically defined - you can dynamically set these as
-// stages through your data if you know the uppper/lower/median etc
-var colorchooser = function(p) {
-    var d = p.pop_per_surgery;
-    return d > 100000 ? '#800026' :
-        d > 50000  ? '#BD0026' :
-        d > 10000  ? '#E31A1C' :
-        d > 6000  ? '#FC4E2A' :
-        d > 5000  ? '#FD8D3C' :
-        d > 2000   ? '#FEB24C' :
-        d > 1000   ? '#FED976' :
-        '#FFEDA0';
-}
 
 init();

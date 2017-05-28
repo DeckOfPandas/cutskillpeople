@@ -203,15 +203,13 @@ section.graphs {
   text-align: center;
   opacity: 0;
   top: 1.8em;
-  transition: visibility 0s linear 0.33s,opacity 0.33s linear;
-  visibility: hidden;
+  transition: opacity 0.33s linear;
   width: 85%;
   z-index: 1;
 }
 
 #filters.loaded {
   opacity: 1;
-  visibility: visible;
 }
 
 #filters .selector {
