@@ -4,6 +4,8 @@ var areaContent = document.getElementById('area-content');
 var areaContentTitle = areaContent.querySelector('.js-area-title');
 var areaContentText = areaContent.querySelector('.js-area-content');
 
+var filters = document.getElementById('filters');
+
 function init() {
 
   // Example CCG properties:
