@@ -14,14 +14,6 @@ var svg = d3.select("#graph1").append("svg")
     .datum(data)
     .call(xy_chart) ;
 
-var svg = d3.select("#graph2").append("svg")
-    .datum(data)
-    .call(xy_chart) ;
-
-var svg = d3.select("#graph3").append("svg")
-    .datum(data)
-    .call(xy_chart) ;
-
 function d3_xy_chart() {
     var width = 640,  
         height = 480, 
