@@ -45,12 +45,12 @@ function init() {
     ccgLayer.properties.data = byCCG[ccgLayer.properties.ccg_code];
   }
 
-  var theMap = new CCGMap('map-container', labelmaker);
+  var theMap = new CCGMap('map-container');
 }
 
 class CCGMap {
 
-  constructor(selector, labelmaker) {
+  constructor(selector) {
     this.selectedArea = null;
     this.selectedYear = 2013;
     this.mapContainer = selector;
@@ -107,6 +107,7 @@ class CCGMap {
   showDetails(e) {
     areaContentTitle.innerHTML = e.target.feature.properties.ccg_name;
     areaContent.className = "loaded";
+    areaContentText.innerHTML = this.areaText(e.target.feature.properties.data);
   }
 
   highlightFeature(e) {
@@ -159,15 +160,23 @@ class CCGMap {
     }.bind(this));
   }
 
-}
+  passOrFail(num) {
+    if(num >= 0.92) {
+      return "number-pass";
+    } else {
+      return "number-fail";
+    }
+  }
 
-var labelmaker = function (props) {
-    this._div.innerHTML = '<h4>CCG Population</h4>'
-	+  (props ? '<b>Region: ' + props.region + '</b><br />'
-	    + '<b>CCG: ' + props.ccg_name + '</b><br />'
-            + '<br />' + props.pop_per_surgery.toFixed(2) + ' population per surgery'
-            + '<br />' + props.population + ' population total'
-            : 'Hover over a CCG');
-};
+  areaText(props) {
+    return "<ul><li>2013: <span class='"+this.passOrFail(props.Rate_Apr13)+"'>" + this.formatPercentage(props.Rate_Apr13) + "%</span></li><li>2017: <span class='"+this.passOrFail(props.Rate_Mar17)+"'>" + this.formatPercentage(props.Rate_Mar17) + "%</span></li></ul>";
+  }
+
+  formatPercentage(number) {
+    return Math.round(number * 1000)/10;
+
+  }
+
+}
 
 init();

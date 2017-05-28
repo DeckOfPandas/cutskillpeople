@@ -15,3 +15,111 @@
     margin: 0 0 5px;
     color: #777;
 }
+
+/*
+* Filters
+*/
+
+#filters {
+  left: 7.5%;
+  position: absolute;
+  text-align: center;
+  opacity: 0;
+  top: 3.6em;
+  transition: visibility 0s linear 0.33s,opacity 0.33s linear;
+  visibility: hidden;
+  width: 85%;
+  z-index: 1;
+}
+
+#filters.loaded {
+  opacity: 1;
+  visibility: visible;
+}
+
+#filters .selector {
+    background: #fff;
+    border-radius: 6px;
+    box-shadow: 0px 2px 4px 0px rgba(126,126,126,0.5);
+    -webkit-box-shadow: 0px 2px 4px 0px rgba(126,126,126,0.5);
+    display: inline-block;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+#filters .selector label {
+  background: #fff;
+  border: 1px solid #2399D3;
+  border-right: 0;
+  color: #222;
+  cursor: pointer;
+  float: left;
+  font-size: 1.4em;
+  padding: 0.71em 1.29em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+#filters .selector input {
+    display: none;
+}
+
+#filters .selector label:first-of-type {
+  border-radius: 6px 0px 0px 6px;
+}
+
+#filters .selector label:last-of-type {
+  border-radius: 0px 6px 6px 0px;
+  border: 1px solid #2399D3;
+}
+
+#filters .selector label:hover, #filters .selector label:active, #filters .selector label:focus {
+  background-color: #fff;
+}
+
+#filters .selector label.selected {
+  background-color: #2399D3;
+  color: #fff;
+  cursor: auto;
+}
+
+.year-selector label {
+  background-repeat: no-repeat;
+  background-position: 1.29em center;
+}
+
+/*
+* Area Content
+*/
+
+#area-content {
+  padding: 2em;
+}
+
+#area-content .close {
+  position: absolute;
+  top: 1.5em;
+  right: 1.5em;
+}
+
+#area-content h2 {
+  font-size: 2.4em;
+}
+
+#area-content li {
+  font-size: 1.8em;
+  margin: 0 0 0.5em;
+}
+
+#area-content .number-pass {
+  background: #66BC29;
+  color: #fff;
+  padding: 0 0.25em;
+}
+
+#area-content .number-fail {
+  background: #A01010;
+  color: #fff;
+  padding: 0 0.25em;
+}
