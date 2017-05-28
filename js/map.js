@@ -42,12 +42,10 @@ class CCGMap() {
     this.selectedArea = null;
     this.initMap();
     this.initInfoBox();
-    this.layers =
   }
 
-  
-
 }
+
 var make_me_a_map = function(selector, labelmaker, colorchooser) {
 
     function style(feature) {
