@@ -33,99 +33,80 @@ function init() {
     event.preventDefault();
     splashMessage.className = "splash-container"
   });
-  make_me_a_map('map-container', labelmaker, colorchooser)
+
+  var theMap = new CCGMap('map-container', labelmaker, colorchooser);
 }
 
-class CCGMap() {
+class CCGMap {
 
-  constructor() {
+  constructor(selector, labelmaker, colorchooser) {
     this.selectedArea = null;
+    this.mapContainer = selector;
     this.initMap();
     this.initInfoBox();
+    this.layers = L.geoJson(ccgData, {
+        style: this.style,
+        onEachFeature: this.onEachFeature.bind(this),
+    }).addTo(this.map);
   }
 
-}
-
-var make_me_a_map = function(selector, labelmaker, colorchooser) {
-
-    function style(feature) {
-        var color = colorchooser(feature.properties)
-        return {
-            fillColor: color,
-            weight: 2,
-            opacity: 1,
-            color: 'white',
-            fillOpacity: 0.7
-        };
-    }
-
-    function showDetails(e) {
-      areaContent.className = "loaded";
-      e
-    }
-
-    function highlightFeature(e) {
-        var layer = e.target;
-        layer.setStyle({
-            weight: 5,
-            color: '#666',
-            dashArray: '',
-            fillOpacity: 0.7
-        });
-        if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-            layer.bringToFront();
-        }
-        info.update(layer.feature.properties);
-    }
-
-    var map = L.map(selector).setView([52.505, -1.59], 6);
-
+  initMap() {
+    this.map = L.map(this.mapContainer).setView([52.505, -1.59], 6);
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + mapboxAccessToken, {
         id: 'mapbox.light',
         attribution:'Team Cutsarrific 3'
-    }).addTo(map);
+    }).addTo(this.map);
+  }
 
-    var info = L.control();
+  initInfoBox() {
+    areaContent.querySelector('.close').addEventListener('click', function(e) {
+      e.preventDefault();
+      areaContent.className = '';
+    });
+  }
 
-    info.onAdd = function (map) {
-        this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
-        this.update();
-        return this._div;
-    };
+  style(feature) {
+      var color = colorchooser(feature.properties)
+      return {
+          fillColor: color,
+          weight: 2,
+          opacity: 1,
+          color: 'white',
+          fillOpacity: 0.7
+      };
+  }
 
-    // method that we will use to update the control based on feature properties passed
-    info.update = labelmaker
-    info.addTo(map);
+  showDetails(e) {
+    areaContentTitle.innerHTML = e.target.feature.properties.ccg_name;
+    areaContent.className = "loaded";
+  }
 
-    function initInfoBox() {
-      areaContent.querySelector('.close').on('click', (e) => {
-        e.preventDefault();
-        areaContent.classname = '';
+  highlightFeature(e) {
+      var layer = e.target;
+      layer.setStyle({
+          weight: 5,
+          color: '#666',
+          dashArray: '',
+          fillOpacity: 0.7
       });
-    }
+      if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+          layer.bringToFront();
+      }
+      info.update(layer.feature.properties);
+  }
 
-    var geojson;
+  resetHighlight(e) {
+      this.geojson.resetStyle(e.target);
+      info.update();
+  }
 
-    function resetHighlight(e) {
-        geojson.resetStyle(e.target);
-        info.update();
-    }
+  onEachFeature(feature, layer) {
+      layer.on({
+          click: this.showDetails.bind(this)
+      });
+  }
 
-    function onEachFeature(feature, layer) {
-        layer.on({
-            mouseover: highlightFeature,
-            mouseout: resetHighlight,
-            click: showDetails
-        });
-    }
-
-    geojson = L.geoJson(ccgData, {
-        style: style,
-        onEachFeature: onEachFeature,
-    }).addTo(map);
-
-};
-
+}
 
 var labelmaker = function (props) {
     this._div.innerHTML = '<h4>CCG Population</h4>'
